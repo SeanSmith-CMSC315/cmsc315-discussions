@@ -25,7 +25,22 @@ from copy import copy, deepcopy
 # Replace the pass statement with your implementation.
 
 class ParentClass:
-    pass
+    # 1 class variable
+    game = "Fantasy RPG"
+
+    # At least 2 instance variables
+    # Constructor (__init__)
+    def __init__(self, name, health, level):
+        self.name = name
+        self.health = health
+        self.level = level
+
+    # Display method
+    def display_info(self):
+        print(f"Name: {self.name}\n"
+              f"Health: {self.health}\n"
+              f"Level: {self.level}")
+
 
 
 # TODO 2:
@@ -40,9 +55,29 @@ class ParentClass:
 #
 # Replace the pass statement with your implementation.
 
+# Uses inheritance
 class ChildClass(ParentClass):
-    pass
+    # 1 new class variable
+    character_type = "Warrior"
 
+    # Override
+    # 2 new instance variables (weapon & weapon_durability)
+    def __init__(self, name, health, level, weapon, weapon_durability):
+        super().__init__(name, health, level)
+        self.weapon = weapon
+        self.weapon_durability = weapon_durability
+
+    # Override
+    def display_info(self):
+        super().display_info()
+        print(f"Weapon: {self.weapon}\n"
+              f"Weapon Durability: {self.weapon_durability}")
+
+    # 1 new method
+    def attack(self):
+        self.weapon_durability = max(0, self.weapon_durability - 2)
+        print(f"> {self.name} violently swings their {self.weapon}.\n"
+              f"> Weapon Durability: {self.weapon_durability}%")
 
 # TODO 3:
 # Create a function that demonstrates class namespaces and instance namespaces.
@@ -57,7 +92,25 @@ class ChildClass(ParentClass):
 
 def demonstrate_namespaces():
     print("\n=== Namespace Demonstration ===")
-    print("TODO: Implement namespace demonstration")
+
+    # Create 2 child objects
+    warrior1 = ChildClass("Arthur", 100, 5, "Sword", 80)
+    warrior2 = ChildClass("Julius", 200, 10, "Greatsword", 100)
+
+    # Access variable through class
+    # Access same variable through object
+    print(f"ChildClass.character_type: {ChildClass.character_type}\n"
+          f"warrior1.character_type: {warrior1.character_type}")
+
+    # Add attribute to one object
+    warrior1.title = "Champion"
+
+    # Display both instance namespaces
+    print("Warrior 1:", warrior1.__dict__)
+    print("Warrior 2:", warrior2.__dict__)
+
+    # Display class namespace
+    print("Class:", list(ChildClass.__dict__.keys()))
 
 
 # TODO 4:
@@ -71,10 +124,28 @@ def demonstrate_namespaces():
 # - Display the original object, shallow copy, and deep copy.
 # - Use comments to explain the difference between shallow and deep copying.
 
+
 def demonstrate_copying():
     print("\n=== Copy Demonstration ===")
-    print("TODO: Implement shallow copy and deep copy demonstration")
+    print("\nTODO: Create and test your parent object")
 
+    # An object that contains nested mutable data
+    warrior = ChildClass("Arthur", 100, 5, "Sword", 80)
+    warrior.inventory = ["Sword", ["Simple Meal"]]
+
+    # Shallow copy shares nested mutable data
+    shallow_warrior = copy(warrior)
+
+    # Deep copy creates independent nested data (changes to the original don't affect the copy)
+    deep_warrior = deepcopy(warrior)
+
+    # Modify the original character's nested data
+    warrior.inventory[1].append("Exquisite Meal")
+
+    # Display original & copies
+    print("Original:", warrior.inventory)
+    print("Shallow Copy:", shallow_warrior.inventory)
+    print("Deep Copy:", deep_warrior.inventory)
 
 # TODO 5:
 # Complete the main function.
@@ -90,8 +161,19 @@ def main():
     print("=== Unit 1 OOP Assignment ===")
 
     print("\nTODO: Create and test your parent object")
+    character1 = ParentClass("Arthur", 100, 5)
+    character1.display_info()
 
     print("\nTODO: Create and test your child object")
+    character2 = ChildClass("Julius", 200, 10, "Greatsword", 100)
+    character2.display_info()
+    character2.attack()
+
+    # Edge Case Test: Test weapon durability at extremely low levels
+    print("\nEdge Case Test: Test weapon durability at extremely low levels")
+    test_warrior = ChildClass("Test Warrior", 100, 1, "Dagger", 1)
+    test_warrior.attack()
+    test_warrior.attack()
 
     demonstrate_namespaces()
     demonstrate_copying()
