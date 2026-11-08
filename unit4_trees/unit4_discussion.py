@@ -289,6 +289,44 @@ def main():
     print(f"After duplicate bst.inorder(): {bst.inorder()}")
     print("Duplicate insertion test passed.")
 
+    # ===============================
+    # REAL-WORLD APPLICATION
+    # ===============================
+
+    print("\n=== EQUIPMENT INVENTORY ===")
+
+    # Each equipment is assigned a unique numerical ID.
+    equipment = {
+        1042: "Torque Wrench",
+        1019: "Multimeter",
+        1073: "Hydraulic Jack",
+        1008: "Air Compressor",
+        1031: "Power Drill"
+    }
+
+    equipment_bst = BST()
+
+    # Insert equipment IDs into the BST.
+    for equipment_id in equipment:
+        equipment_bst.insert(equipment_id)
+
+    # Display equipment IDs in ascending order.
+    print("Equipment IDs:", equipment_bst.inorder())
+
+    # Search for equipment using its ID.
+    search_id = 1031
+
+    if equipment_bst.search(search_id):
+        print(f"Equipment found: {equipment[search_id]}")
+    else:
+        print("Equipment not found.")
+
+    # Verify that the BST works correctly.
+    assert equipment_bst.search(1031) is True
+    assert equipment_bst.search(9999) is False
+
+    print("Equipment inventory tests passed.")
+
 
 if __name__ == "__main__":
     main()
